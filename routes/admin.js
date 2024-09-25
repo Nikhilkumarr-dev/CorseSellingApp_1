@@ -3,7 +3,7 @@ const adminRouter= Router();
 const {adminModel, userModel, CoursenModel}=require("../db");
 const jwt = require("jsonwebtoken")
 const {JWT_ADMIN_PASSWORD}=require("../config");
-const {adminMiddelWare}=require("../middleware/admin");
+const {adminMiddleWare}=require("../middleware/admin");
 
     adminRouter.post("/signup",async function(req,res){
         const {email,password,firstName,lastName}=req.body;
@@ -50,7 +50,7 @@ const {adminMiddelWare}=require("../middleware/admin");
         }
 
     })
-    adminRouter.get("/course",adminMiddelWare,async function(req,res){
+    adminRouter.get("/course",adminMiddleWare,async function(req,res){
 
         const adminId = req.userId;
         const {title,description,imageUrl,price}=req.body;
