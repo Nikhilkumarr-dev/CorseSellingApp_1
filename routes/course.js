@@ -2,7 +2,7 @@ const {Router} = require("express")
 
 const courseRouter = Router();
 
-const {userMiddleWare}=require("../middleware/user");
+const {userMiddleWare,purchaseModel}=require("../middleware/user");
 const { purchaseModel, CourseModel } = require("../db");
 
     courseRouter.post("/purchase",async function(req,res){
