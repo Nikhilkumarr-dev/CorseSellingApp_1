@@ -15,3 +15,10 @@ Use cookies instead of JWT for auth
 Add a rate limiting middleware
 Frontend in ejs (low pri)
 Frontend in React
+
+
+Good to Haves (considering as assignments)
+-using cookie instead of JWT for auth
+-adding a rate limiting middleware
+-frontend in dom or ejs(low prior)
+-frontend in react
