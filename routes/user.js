@@ -59,18 +59,11 @@ const {userMiddleWare}=require("../middleware/user")
 
         });
 
-        let purcahasedCourseIds=[];
-
-        for(let i=0;i<purchases.length;i++)
-        {
-            purcahasedCourseIds.push(purchases[i].courseId)
-        }
 
         const courseData = await CourseModel.fing({
-            _id:{$in : purcahasedCourseIds}
+            _id:{ $in : purchases.map(x=>x.courseId)}
         });
-
-
+        
         res.json({
            purchases
         })
