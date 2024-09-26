@@ -14,12 +14,16 @@ app.use(express.json())
 
 app.use("/api/v1/user",userRouter);
 app.use("/api/v1/course",courseRouter);
-app.use("api/v1/admin",adminRouter)
+app.use("/api/v1/admin",adminRouter)
 
 async function main(){
-    await mongoose.connect(process.env.MONOGO_URL);
+
+
+    await mongoose.connect("mongodb+srv://admin:MU9Nw4YfueewntQW@cluster0.00ffj.mongodb.net/CourseSellingApplication1");
     app.listen(3000);
-    console.log("listening onport no 3000");
+
+
+    console.log("listening onport");
     
 }
 
