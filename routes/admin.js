@@ -1,11 +1,42 @@
 const {Router} = require('express');
 const adminRouter= Router();
 const {adminModel, userModel, CourseModel}=require("../db");
-const jwt = require("jsonwebtoken")
+const jwt = require("jsonwebtoken");
+
 const {JWT_ADMIN_PASSWORD}=require("../config");
 const {adminMiddleWare}=require("../middleware/admin");
+const { z } = require('zod');
 
     adminRouter.post("/signup",async function(req,res){
+
+        const requireBody=z.object({
+            email:z.string().min(3).max(100).email(),
+            name:z.string().min(3).max(100),
+            password:z.string().min(3).max(30).refine((value)=>{
+                const hasUpperCase =/[A-Z]/.test(value);
+
+                const hasLowerCase=/[a-z]/.test(value);
+                
+                const hasSpecialCharacter=/[!@#$%^&*()_<>]/test.test(value);
+
+                return hasLowerCase && hasSpecialCharacter && hasUpperCase;
+            },{
+                message:"password must contain at atleat one upper case and lowercase with splecial character"
+            })
+        })
+
+        const parsedDatawithSuccess = requireBody.safeParse(req.body);
+        if(!parsedDatawithSuccess.success)
+        {
+               res.json({
+                message:"Incorrect Format",
+                error: parsedDatawithSuccess.error
+               }) 
+               return
+        }
+
+
+
         const {email,password,firstName,lastName}=req.body;
 
             const user= await adminModel.create({
