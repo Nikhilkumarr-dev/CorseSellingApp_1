@@ -19,8 +19,8 @@ app.use("/api/v1/admin",adminRouter)
 async function main(){
 
 
-    await mongoose.connect("mongodb+srv://admin:MU9Nw4YfueewntQW@cluster0.00ffj.mongodb.net/CourseSellingApplication1");
-    app.listen(3000);
+    await mongoose.connect("mongodb+srv://admin:MU9Nw4YfueewntQW@cluster0.00ffj.mongodb.net/Udemy");
+    app.listen(3005);
 
 
     console.log("listening onport");

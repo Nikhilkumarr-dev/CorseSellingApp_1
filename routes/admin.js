@@ -11,13 +11,12 @@ const { z } = require('zod');
 
         const requireBody=z.object({
             email:z.string().min(3).max(100).email(),
-            name:z.string().min(3).max(100),
             password:z.string().min(3).max(30).refine((value)=>{
                 const hasUpperCase =/[A-Z]/.test(value);
 
                 const hasLowerCase=/[a-z]/.test(value);
                 
-                const hasSpecialCharacter=/[!@#$%^&*()_<>]/test.test(value);
+                const hasSpecialCharacter=/[!@#$%^&*()_<>]/.test(value);
 
                 return hasLowerCase && hasSpecialCharacter && hasUpperCase;
             },{

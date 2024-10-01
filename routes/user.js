@@ -4,9 +4,36 @@ const userRouter = Router();
 const jwt = require("jsonwebtoken");
 const {JWT_USER_PASSWORD}=require("../config");
 const {userMiddleWare}=require("../middleware/user")
+const {z}=require('zod')
 
 
     userRouter.post("/signup", async function(req,res){
+
+
+        const requireBody = z.object({
+             email:z.string().min(3).max(100).email(),
+             password:z.string().min(3).max(100).refine((value)=>{
+                const hasLowerCase=/[a-z]/.test(value);
+                const hasUpperCase=/[A-Z]/.test(value);
+                const specialCharacter=/[!@#$%^&*()_><]/.test(value);
+                return hasLowerCase && hasUpperCase && specialCharacter;
+             },{
+                message:"password must contain special character and uppercase and lower case letters"
+             })
+        })
+
+        const parsedDatawithSuccess= requireBody.safeParse(req.body);
+
+        if(!parsedDatawithSuccess.success)
+        {
+            res.json({
+                message:"incorrect format",
+                error:parsedDatawithSuccess.error
+
+            })
+
+            return
+        }
         const {email,password,firstName,lastName}=req.body;
         //plain password text is not accepted
         try{
