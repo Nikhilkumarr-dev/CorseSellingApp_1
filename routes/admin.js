@@ -2,10 +2,10 @@ const {Router} = require('express');
 const adminRouter= Router();
 const {adminModel, userModel, CourseModel}=require("../db");
 const jwt = require("jsonwebtoken");
-
 const {JWT_ADMIN_PASSWORD}=require("../config");
 const {adminMiddleWare}=require("../middleware/admin");
 const { z } = require('zod');
+const bcrypt=require('bcrypt');
 
     adminRouter.post("/signup",async function(req,res){
 
@@ -38,9 +38,16 @@ const { z } = require('zod');
 
         const {email,password,firstName,lastName}=req.body;
 
+
+        //promisifing the fs function call
+        const hashedPassword = await bcrypt.hash(password,5);
+
+        console.log(hashedPassword);
+
+
             const user= await adminModel.create({
                 email,
-                password,
+                password:hashedPassword,
                 firstName,
                 lastName
             })
@@ -49,6 +56,7 @@ const { z } = require('zod');
             })
     })
     adminRouter.post("/signin",adminMiddleWare,async function(req,res){
+
         const requireBody=z.object({
             email:z.string().min(3).max(100).email(),
             password:z.string().min(3).max(30).refine((value)=>{
@@ -79,17 +87,29 @@ const { z } = require('zod');
 
         const admin = await adminModel.find({
             email:email,
-            password:password
-        })
+    
+        });
+
+        if(!admin)
+        {
+            res.status(403).json({
+                message:"admin doesnt exist"
+            })
+            return;
+        }
+
+        const passwordMatch=await bcrypt.compare(password,admin.password);
+
+
         
-        if(admin)
+        if(passwordMatch)
         {
             const token = jwt.sign({
                 id:admin._id
             },JWT_ADMIN_PASSWORD);
 
             res.json({
-                token:  token
+                token: token
             })
         }
         else

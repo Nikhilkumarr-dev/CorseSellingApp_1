@@ -4,7 +4,8 @@ const userRouter = Router();
 const jwt = require("jsonwebtoken");
 const {JWT_USER_PASSWORD}=require("../config");
 const {userMiddleWare}=require("../middleware/user")
-const {z}=require('zod')
+const {z}=require('zod');
+const bcrypt=require('bcrypt');
 
 
     userRouter.post("/signup", async function(req,res){
@@ -35,11 +36,16 @@ const {z}=require('zod')
             return
         }
         const {email,password,firstName,lastName}=req.body;
+
+
+        const hashedPassword = await bcrypt.hash(password,5);
+
+        console.log(hashedPassword);
         //plain password text is not accepted
         try{
             await  userModel.create({
             email:email,
-            password:password,
+            password:hashedPassword,
             firstName:firstName,
             lastName:lastName
         })
@@ -59,11 +65,22 @@ const {z}=require('zod')
         const {email,password}=req.body;
 
         const user = await userModel.findOne({
-            email,
-            password
+            email
         });
 
-        if(user){
+        if(!user)
+        {
+            res.status(403).json(
+                {
+                    message:"user doesnt exist"
+                })
+            return
+        }
+
+        const passwordMatch=await bcrypt.compare(password,user.password);
+
+
+        if(passwordMatch){
             const token = jwt.sign({
                 id: user._id
             },JWT_USER_PASSWORD);
