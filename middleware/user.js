@@ -6,18 +6,28 @@ const { JWT_USER_PASSWORD } = require("../config");
 
 function userMiddleWare(req,res,next){
     const token = req.headers.token;
-    const decoded = jwt.verify(token,JWT_USER_PASSWORD)
 
-    if (decoded) 
-    {
-        req.userId = decoded.id;
-        next()
-    }else
+    if(!token)
     {
         res.status(403).json({
-            message:"you are not sign in"
+            message:"token not provided"
         })
     }
+
+    try{
+    const decoded = jwt.verify(token,JWT_USER_PASSWORD)
+
+
+        req.userId = decoded.id;
+        next()
+    }
+    catch(e){
+    
+        res.status(403).json({
+            message:"invalid or expired token"
+        })
+    }
+    
 }
 
 module.exports={

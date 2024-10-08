@@ -1,14 +1,17 @@
-require('dotenv').config()
-console.log(process.env.MONOGO_URL)
-const bcrypt = require('bcrypt');
+// require('dotenv').config()
+// console.log(process.env.MONOGO_URL)
 const express = require('express');
 const mongoose = require('mongoose');
+const {z}=require('zod');
+const bcrypt=require('bcrypt');
+
+
 const {userRouter} = require("./routes/user");
 const {courseRouter}=require("./routes/course");
 const {adminRouter}=require("./routes/admin");
+
+
 const app = express();
-const jwt = require('jsonwebtoken');
-const {z}=require("zod");
 app.use(express.json())
 
 
@@ -26,6 +29,4 @@ async function main(){
     console.log("listening onport");
     
 }
-
-
 main();

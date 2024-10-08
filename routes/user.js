@@ -20,7 +20,10 @@ const bcrypt=require('bcrypt');
                 return hasLowerCase && hasUpperCase && specialCharacter;
              },{
                 message:"password must contain special character and uppercase and lower case letters"
-             })
+             }),
+             firstName:z.string().min(3).max(100),
+             lastName:z.string().min(3).max(100)
+
         })
 
         const parsedDatawithSuccess= requireBody.safeParse(req.body);
@@ -100,17 +103,17 @@ const bcrypt=require('bcrypt');
         const userId= req.userId;
         const purchases = await purchaseModel.find({
             userId,
-
         });
 
 
-        const courseData = await CourseModel.fing({
+        const courseData = await CourseModel.find({
             _id:{ $in : purchases.map(x=>x.courseId)}
         });
         
         res.json({
-           purchases
-        })
+            purchases,
+            courses: courseData
+        });
     })
 
     module.exports={
