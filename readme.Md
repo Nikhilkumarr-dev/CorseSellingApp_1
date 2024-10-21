@@ -12,8 +12,8 @@ Complete the routes for user login, signup, purchase a course, see course (Extra
 Create the frontend
 Good to haves
 
-#Good to Haves (considering as assignments)
-##-using cookie instead of JWT for auth
-##-adding a rate limiting middleware
-##-frontend in dom or ejs(low prior)
-##-frontend in react
+#[Good to Haves (considering as assignments)]
+##[-using cookie instead of JWT for auth]
+##[-adding a rate limiting middleware]
+##[-frontend in dom or ejs(low prior)]
+##[-frontend in react]
