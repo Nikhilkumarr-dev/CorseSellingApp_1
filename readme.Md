@@ -1,4 +1,5 @@
-Create a course selling app
+#Create a course selling app
+
 Initialize a new Node.js project
 Add Express, jsonwebtoken, mongoose to it as a dependency
 Create index.js
@@ -11,14 +12,8 @@ Complete the routes for user login, signup, purchase a course, see course (Extra
 Create the frontend
 Good to haves
 
-Use cookies instead of JWT for auth
-Add a rate limiting middleware
-Frontend in ejs (low pri)
-Frontend in React
-
-
-Good to Haves (considering as assignments)
--using cookie instead of JWT for auth
--adding a rate limiting middleware
--frontend in dom or ejs(low prior)
--frontend in react
+#Good to Haves (considering as assignments)
+##-using cookie instead of JWT for auth
+##-adding a rate limiting middleware
+##-frontend in dom or ejs(low prior)
+##-frontend in react
